@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>ダイヤモンド・ライフ｜野球人生シミュレーター</title>
+<style>
+:root{--bg:#0c1220;--panel:#151f31;--panel2:#1d2a40;--line:#30415d;--text:#f3f6fc;--muted:#a9b8cf;--gold:#f3c969;--green:#80ddb0;--red:#ff8585;--blue:#8fc7ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b2c47 0,#0c1220 55%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.55}
+button,input,select{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;min-height:100dvh;padding:16px 14px 36px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.brand{font-weight:900;letter-spacing:.04em;font-size:17px}.brand span{color:var(--gold)}.save{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:10px;padding:7px 10px;font-size:12px}
+.hero{border:1px solid #344662;border-radius:22px;padding:22px;background:linear-gradient(135deg,#1c3551,#121b2b 70%);position:relative;overflow:hidden}.hero:after{content:"⚾";position:absolute;right:-4px;top:-24px;font-size:118px;opacity:.08;transform:rotate(-20deg)}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:800}.hero h1{font-size:clamp(26px,6vw,40px);line-height:1.18;margin:8px 0 10px}.hero p{color:var(--muted);margin:0;max-width:540px;font-size:14px}.tagrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.tag{border:1px solid #40516b;background:#18273b;padding:5px 9px;border-radius:99px;font-size:11px;color:#d9e5f7}
+.panel{background:rgba(21,31,49,.94);border:1px solid var(--line);border-radius:18px;padding:17px;margin-top:14px}.panel h2{font-size:16px;margin:0 0 12px}.muted{color:var(--muted)}.small{font-size:12px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;background:#0d1625;border:1px solid var(--line);color:var(--text);border-radius:11px;padding:12px;outline:none}input:focus,select:focus{border-color:var(--blue)}.choicegrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{background:#172338;border:1px solid #334560;border-radius:13px;color:var(--text);padding:13px;text-align:left;min-height:72px}.choice strong{display:block;font-size:14px}.choice span{font-size:11px;color:var(--muted);display:block;margin-top:4px}.choice.selected{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:#2a2b2b}.primary{width:100%;border:0;border-radius:12px;padding:14px 16px;font-weight:900;background:var(--gold);color:#172033;margin-top:13px}.secondary{background:#263750;color:var(--text);border:1px solid #415571;border-radius:10px;padding:9px 12px}.topstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.stat{background:#101a2a;border:1px solid #293b55;border-radius:12px;padding:10px}.stat label{display:block;color:var(--muted);font-size:10px}.stat b{font-size:18px}.meter{height:6px;background:#29364b;border-radius:9px;overflow:hidden;margin-top:6px}.meter i{display:block;height:100%;background:var(--green);border-radius:9px}.eventhead{display:flex;justify-content:space-between;gap:10px;align-items:center}.year{color:var(--gold);font-weight:900;font-size:12px}.eventtitle{font-size:24px;line-height:1.25;margin:10px 0}.story{font-size:14px;color:#dce5f2;white-space:pre-line}.options{display:grid;gap:9px;margin-top:17px}.option{border:1px solid #394d68;background:linear-gradient(110deg,#1b2a40,#152033);color:var(--text);border-radius:14px;padding:14px;text-align:left}.option:hover{border-color:var(--gold)}.option b{display:block;font-size:14px}.option small{display:block;color:var(--muted);font-size:12px;margin-top:4px}.delta{color:var(--green);font-size:11px;margin-top:7px}.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:8px}.log{display:grid;gap:10px}.logitem{border-left:2px solid #536d8c;padding:3px 0 3px 12px}.logitem b{font-size:12px;color:var(--gold)}.logitem p{font-size:12px;color:#c4d0e1;margin:3px 0 0}.hidden{display:none!important}.endgrade{font-size:38px;color:var(--gold);font-weight:1000}.footer{text-align:center;color:#71839e;font-size:10px;margin:24px 0 10px}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#f3c969;color:#172033;padding:10px 16px;border-radius:99px;font-weight:800;font-size:12px;box-shadow:0 6px 25px #0007}
+@media(min-width:620px){.app{padding:24px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}.twocol .panel{margin-top:14px}.hero{padding:28px}.options{grid-template-columns:1fr 1fr}.option{min-height:115px}}
+</style>
+</head>
+<body><main class="app">
+<header><div class="brand">⚾ <span>DIAMOND</span> LIFE</div><button class="save" id="saveBtn">セーブ</button></header>
+<section class="hero"><div class="eyebrow">BASEBALL LIFE SIMULATOR</div><h1>野球人生は、<br>一球ごとに変わる。</h1><p>生まれ持った才能、努力、出会い、そして運。少年時代からプロ野球、引退まで。選択を重ねて、自分だけの野球人生をつくろう。</p><div class="tagrow"><span class="tag">選択で未来が変化</span><span class="tag">才能×努力×運</span><span class="tag">誕生から引退まで</span></div></section>
+<section id="start" class="panel">
+<h2>あなたの野球人生を始める</h2>
+<div class="field"><label for="playerName">選手名</label><input id="playerName" maxlength="12" placeholder="例：大空 翔" value="大空 翔"></div>
+<div class="field"><label>生まれた環境</label><div class="choicegrid" id="origins">
+<button class="choice selected" data-origin="ordinary"><strong>普通の家庭</strong><span>バランス型。自分の力で道を開く</span></button>
+<button class="choice" data-origin="baseball"><strong>野球一家</strong><span>野球環境に恵まれる。期待も大きい</span></button>
+<button class="choice" data-origin="poor"><strong>苦しい家計</strong><span>ハングリー精神。環境面は不利</span></button>
+<button class="choice" data-origin="gifted"><strong>天才少年</strong><span>才能に恵まれる。壁にぶつかることも</span></button>
+</div></div>
+<div class="field"><label>最初の夢</label><select id="dream"><option value="pro">プロ野球選手になりたい</option><option value="ace">甲子園のエースになりたい</option><option value="star">誰もが知るスターになりたい</option><option value="money">野球で家族を楽にしたい</option></select></div>
+<button class="primary" id="startBtn">人生をスタートする →</button>
+<p class="muted small">※ゲーム内の選手・球団・成績は架空です。選択とランダムイベントで展開が変わります。</p>
+</section>
+<section id="game" class="hidden">
+<div class="panel">
+<div class="eventhead"><span class="year" id="stage">少年時代</span><span class="muted small" id="age">6歳</span></div>
+<h2 id="playerHeadline">大空 翔の野球人生</h2>
+<div class="topstats" id="quickStats"></div>
+</div>
+<div class="panel">
+<div class="eventhead"><span class="tag" id="eventTag">人生の分岐</span><span class="muted small" id="eventNum">イベント 1</span></div>
+<h2 class="eventtitle" id="eventTitle"></h2>
+<p class="story" id="eventStory"></p>
+<div class="options" id="options"></div>
+</div>
+<div class="twocol">
+<div class="panel"><div class="sectiontitle"><h2>選手プロフィール</h2><span class="muted small" id="position">未定</span></div><div id="profile"></div></div>
+<div class="panel"><div class="sectiontitle"><h2>人生の記録</h2><span class="muted small" id="recordCount">0件</span></div><div class="log" id="history"></div></div>
+</div>
+<div class="panel hidden" id="ending"><div class="eyebrow">CAREER SUMMARY</div><h2>野球人生、ここに完結。</h2><div class="endgrade" id="grade"></div><p id="endingText" class="story"></p><div id="careerStats" class="topstats"></div><button class="primary" id="restartBtn">もう一度、別の人生を歩む ↻</button></div>
+</section>
+<div class="footer">DIAMOND LIFE · 架空の野球人生シミュレーション</div>
+</main><div id="toast" class="toast hidden"></div>
+<script>
+const $=id=>document.getElementById(id);
+let origin='ordinary', state=null;
+const originData={
+ ordinary:{talent:48,discipline:52,health:55,mental:50,wealth:50,network:45,label:'普通の家庭'},
+ baseball:{talent:55,discipline:60,health:54,mental:48,wealth:55,network:60,label:'野球一家'},
+ poor:{talent:50,discipline:62,health:48,mental:60,wealth:25,network:35,label:'苦しい家計'},
+ gifted:{talent:78,discipline:43,health:53,mental:45,wealth:50,network:48,label:'天才少年'}
+};
+const stages=[
+{min:6,max:8,name:'幼少期',events:[
+{tag:'原点',title:'はじめてのグラウンド',story:'近所の公園で、年上の子が投げたボールを夢中で追いかけた。帰り道、父（母）が聞く。「野球、やってみる？」',choices:[
+{t:'地元の少年野球チームに入る',d:'仲間と基礎を学ぶ。野球人生の第一歩。',fx:{talent:3,discipline:5,network:4},r:'野球チームに入団。仲間と練習する日々が始まった。'},
+{t:'まずは公園で自由に遊ぶ',d:'遊びの中で運動能力と感覚を伸ばす。',fx:{talent:5,health:3,discipline:-1},r:'自由な遊びの中で、ボールを扱う感覚が育った。'},
+{t:'別のスポーツも試してみる',d:'身体能力の幅が広がるかもしれない。',fx:{health:5,mental:3,talent:1},r:'いろいろな動きに触れ、運動神経が磨かれた。'}]},
+{tag:'成長',title:'周囲より少し遠くへ',story:'同い年の子より遠くへボールを投げられることに気づいた。これは才能なのか、それとも偶然なのか。',choices:[
+{t:'毎日、壁当てを続ける',d:'基礎が身につく。努力の習慣も育つ。',fx:{talent:4,discipline:6},r:'壁当てを続け、投げる感覚と習慣が身についた。'},
+{t:'友達と試合ごっこをする',d:'勝負勘と仲間との関係が育つ。',fx:{mental:4,network:5},r:'遊びの試合で勝負勘を覚え、仲間が増えた。'},
+{t:'コーチにフォームを見てもらう',d:'正しい基礎を学べる可能性。',fx:{talent:3,network:3,discipline:2},r:'コーチに基本を教わった。小さな改善が積み重なった。'}]}
+]},
+{min:9,max:12,name:'少年野球',events:[
+{tag:'試練',title:'初めての大きな挫折',story:'大事な試合でエラーをしてしまった。チームは負け、帰り道は誰も話さなかった。',choices:[
+{t:'悔しさを練習にぶつける',d:'技術と精神力を鍛える。疲労には注意。',fx:{talent:5,discipline:6,mental:3,health:-2},r:'悔しさを胸に練習。守備への苦手意識が少し薄れた。'},
+{t:'仲間と失敗を振り返る',d:'信頼関係と試合理解を深める。',fx:{mental:5,network:5,discipline:2},r:'仲間と話し合い、失敗を次に活かす考え方を学んだ。'},
+{t:'一度野球から離れて気分転換',d:'気持ちを立て直す。情熱が揺らぐ可能性も。',fx:{health:4,mental:2,discipline:-2},r:'気分転換で心身を休めた。野球への気持ちを見つめ直した。'}]},
+{tag:'才能',title:'ポジションを決める日',story:'監督がポジション変更を提案してきた。得意なことを伸ばすか、新しい役割に挑むか。',choices:[
+{t:'投手に挑戦する',d:'試合を支配する可能性。肩への負担も。',fx:{talent:5,mental:3,health:-2},pos:'投手',r:'投手に挑戦。マウンドでの経験が増えた。'},
+{t:'打撃を磨く',d:'打者としての武器を育てる。',fx:{talent:5,discipline:3},pos:'野手',r:'打撃練習に集中。自分のスイングを探し始めた。'},
+{t:'チームに必要な守備位置を引き受ける',d:'信頼と野球IQを高める。',fx:{mental:4,network:4,discipline:3},pos:'野手',r:'チーム事情に合わせたポジションで信頼を得た。'}]}
+]},
+{min:13,max:15,name:'中学野球',events:[
+{tag:'進路',title:'進学先をどうする？',story:'中学最後の大会が終わり、進路を決める時期になった。強豪校から声がかかるかもしれないが、確約はない。',choices:[
+{t:'県内の強豪校を目指す',d:'競争は激しいが、成長の機会が多い。',fx:{talent:4,discipline:5,mental:-2,network:3},r:'強豪校への進学を目指すことにした。競争の激しい環境が待っている。'},
+{t:'自分に合う学校を選ぶ',d:'出場機会と心身のバランスを重視。',fx:{discipline:3,mental:4,health:3},r:'自分に合う環境を選択。着実に出場機会を狙う。'},
+{t:'野球以外の勉強も優先する',d:'将来の選択肢を広げる。',fx:{mental:3,wealth:3,discipline:2},r:'勉強にも時間を使い、野球以外の可能性も残した。'}]},
+{tag:'壁',title:'身体が思うように動かない',story:'周囲の選手が急に大きくなり、球速や飛距離で差をつけられ始めた。焦りが募る。',choices:[
+{t:'筋力と基礎体力を計画的に鍛える',d:'身体能力とケガ予防を両立させる。',fx:{talent:3,health:5,discipline:4},r:'無理のない身体づくりを始めた。焦りより継続を大切にした。'},
+{t:'技術と戦術の理解で勝負する',d:'野球IQと安定感を伸ばす。',fx:{talent:3,mental:4,discipline:3},r:'技術と戦術を研究し、プレーの選択肢が増えた。'},
+{t:'ライバルに負けまいと猛練習',d:'急成長の可能性もあるが、故障リスク。',fx:{talent:7,discipline:5,health:-7,mental:-2},r:'猛練習で力を伸ばしたが、疲労もかなり溜まった。'}]}
+]},
+{min:16,max:18,name:'高校野球',events:[
+{tag:'青春',title:'レギュラー争い',story:'夏の大会まであと2か月。監督は最後の枠を誰にするか迷っている。練習試合で結果を残す必要がある。',choices:[
+{t:'実戦形式の練習でアピールする',d:'勝負強さを見せる。結果は運にも左右される。',fx:{talent:3,mental:5,discipline:2},chance:{p:.62,good:{talent:8,network:4},bad:{mental:-5},goodText:'練習試合で決定的な活躍。レギュラーを勝ち取った！',badText:'大事な場面で結果が出ず、悔しさが残った。'},r:'実戦で自分の力を試した。'},
+{t:'弱点を徹底的に修正する',d:'地道な改善で監督の信頼を得る。',fx:{talent:5,discipline:5,health:-1},r:'弱点の修正に集中。派手さはないが確かな成長を感じた。'},
+{t:'チームのために裏方も引き受ける',d:'信頼を得るが、出場機会は保証されない。',fx:{network:6,mental:4,discipline:2},r:'チームを支える姿勢が評価され、仲間からの信頼が深まった。'}]},
+{tag:'運命',title:'最後の夏、運命の試合',story:'地方大会の大一番。スタンドは満員。ここで勝てば甲子園が見えてくる。あなたの準備はできている。',choices:[
+{t:'勝負を恐れず攻める',d:'大活躍も大失敗もあり得る。',fx:{mental:4,talent:2},chance:{p:.52,good:{talent:9,network:5,mental:4},bad:{mental:-8},goodText:'大舞台で躍動！チームを勝利へ導き、スカウトの目に留まった。',badText:'あと一歩届かず敗退。悔しさは残ったが、確かな経験を得た。'},r:'最後の夏に全力を尽くした。'},
+{t:'堅実なプレーに徹する',d:'ミスを減らし、チームに貢献する。',fx:{mental:3,discipline:4,network:2},chance:{p:.64,good:{network:3,talent:4},bad:{mental:-3},goodText:'堅実なプレーでチームに貢献。',badText:'チームは敗れたが、落ち着いたプレーを見せた。'},r:'自分にできるプレーを積み重ねた。'},
+{t:'将来を考えて身体を守る',d:'無理を避け、次のステージに備える。',fx:{health:5,mental:2,discipline:1},r:'先を見据え、コンディションを優先した。'}]}
+]},
+{min:19,max:22,name:'プロへの挑戦',events:[
+{tag:'運命の分岐',title:'ドラフト会議の日',story:'名前が呼ばれるのを待つ。指名される保証はない。大学や社会人で力をつける道もある。',choices:[
+{t:'プロ志望届を出し、指名を待つ',d:'夢への最短距離。指名は実力と運次第。',fx:{mental:4},chance:{p:.28,good:{talent:5,wealth:8,network:8},bad:{mental:-7,discipline:4},goodText:'指名された！プロの世界への切符をつかんだ。',badText:'名前は呼ばれなかった。野球を続けるか、人生を見つめ直す時が来た。'},r:'ドラフト会議を迎えた。'},
+{t:'大学・社会人で実力を磨く',d:'遠回りだが、成長と評価の機会がある。',fx:{talent:7,discipline:6,health:2,wealth:2},r:'進学・社会人で経験を積む道を選んだ。'},
+{t:'野球を続けながら別の道も探す',d:'将来の安定を確保しつつ挑戦する。',fx:{wealth:5,mental:3,discipline:2},r:'野球だけに人生を賭けず、別の可能性も準備した。'}]},
+{tag:'プロの壁',title:'プロの世界は甘くない',story:'プロ入り、あるいは上のレベルで野球を続けている。周囲は全員、かつてのエースや主砲だ。自分の武器を磨かなければ埋もれてしまう。',choices:[
+{t:'武器をひとつ極める',d:'専門性を伸ばして生き残りを狙う。',fx:{talent:7,discipline:5,mental:2},r:'自分の武器を磨き続け、強みがはっきりしてきた。'},
+{t:'弱点を減らす総合力型を目指す',d:'出場機会を得やすくなる可能性。',fx:{talent:4,discipline:4,mental:4},r:'総合力を磨き、チームに必要とされる選手を目指した。'},
+{t:'環境を変える決断をする',d:'移籍や役割変更のチャンス。適応が必要。',fx:{network:5,mental:3,talent:3},r:'環境を変えることを視野に入れ、新たな役割に挑んだ。'}]}
+]},
+{min:23,max:30,name:'プロの世界',events:[
+{tag:'飛躍',title:'人生を変えるシーズン',story:'練習の成果が出始めた。ここで一段上に行けるか、それとも壁にぶつかるか。オフの過ごし方が未来を左右する。',choices:[
+{t:'個人トレーナーをつけて鍛える',d:'能力アップを狙う。費用と疲労は増える。',fx:{talent:7,discipline:4,wealth:-3,health:-2},r:'専門的なトレーニングで能力向上を狙った。'},
+{t:'映像分析と技術改善に集中する',d:'野球IQと技術を磨く。',fx:{talent:5,discipline:5,mental:3},r:'データと映像を研究し、技術を磨いた。'},
+{t:'休養と家族・仲間との時間を大切にする',d:'コンディションとメンタルを整える。',fx:{health:6,mental:6,network:3},r:'心身を整え、長いシーズンに備えた。'}]},
+{tag:'試練',title:'突然のケガ',story:'試合中、身体に鋭い痛みが走った。検査の結果、しばらく離脱することになった。復帰を急ぐか、長い目で身体を守るか。',choices:[
+{t:'焦らずリハビリに専念する',d:'長期的な健康を守る。復帰は遅れる。',fx:{health:7,discipline:4,mental:2},r:'リハビリを優先。遠回りでも復帰への道を進んだ。'},
+{t:'できる範囲で早期復帰を目指す',d:'チャンスを逃さない可能性。再発リスクも。',fx:{health:-4,mental:4,talent:2},chance:{p:.3,good:{talent:6,network:3},bad:{health:-12,mental:-5},goodText:'想定より早く復帰。粘り強さを評価された。',badText:'再び痛みが出てしまった。無理の代償は大きかった。'},r:'早期復帰を目指した。'},
+{t:'役割を変えてチームに貢献する',d:'ポジションやプレースタイルを見直す。',fx:{talent:3,network:4,mental:4},r:'役割を見直し、別の形でチームに貢献した。'}]},
+{tag:'評価',title:'契約更改、そして未来',story:'シーズンが終わった。成績は期待通りではなかったが、まだチャンスはある。今後のキャリアを左右する選択だ。',choices:[
+{t:'現状維持で来季に賭ける',d:'今の環境で巻き返しを狙う。',fx:{discipline:5,mental:3},r:'今の環境で再起を目指すことにした。'},
+{t:'新しい環境や役割を求める',d:'移籍・コンバートの可能性。',fx:{network:4,talent:3,mental:2},chance:{p:.55,good:{talent:5,network:5},bad:{mental:-3},goodText:'新しい役割がはまり、評価が上がった。',badText:'環境の変化に苦しみ、適応に時間がかかった。'},r:'変化を求めて、新しい挑戦を始めた。'},
+{t:'家族や信頼できる人に相談する',d:'判断を整理し、メンタルを整える。',fx:{mental:6,network:4,health:2},r:'大切な人の助言で、進むべき道が見えてきた。'}]}
+]},
+{min:31,max:38,name:'キャリア後半',events:[
+{tag:'転機',title:'若手の台頭',story:'チームには勢いのある若手が現れた。経験は武器だが、年齢による変化も感じ始めている。',choices:[
+{t:'技術と経験で勝負する',d:'経験値と野球IQを武器にする。',fx:{talent:3,mental:5,network:4},r:'経験を活かしたプレーで存在感を示した。'},
+{t:'身体づくりを見直して挑戦する',d:'再び成長を狙う。ケアが重要。',fx:{talent:4,health:3,discipline:4},r:'身体のケアと鍛錬を見直し、再挑戦した。'},
+{t:'若手を支える役割を受け入れる',d:'信頼と指導力が高まる。',fx:{network:7,mental:4,discipline:2},r:'若手を支え、チームに欠かせない存在になった。'}]},
+{tag:'人生',title:'野球以外の未来',story:'野球が人生のすべてではないと感じる瞬間が増えた。引退後の人生をどう考えるか。',choices:[
+{t:'指導者になるために学ぶ',d:'引退後のコーチ・監督への道。',fx:{discipline:4,network:4,mental:3},career:'指導者志望',r:'指導者としての知識を学び始めた。'},
+{t:'資産管理や事業を学ぶ',d:'引退後の経済的な備え。',fx:{wealth:7,mental:2},career:'事業・資産形成',r:'引退後を見据え、資産管理や事業を学んだ。'},
+{t:'今は野球に集中する',d:'現役生活を優先。将来の準備は後回し。',fx:{talent:3,discipline:3,mental:2},r:'今できることに集中し、現役生活を大切にした。'}]}
+]},
+{min:39,max:45,name:'引退への道',events:[
+{tag:'決断',title:'引退が頭をよぎる',story:'身体の回復に時間がかかり、出場機会も減ってきた。まだ続けたい気持ちはある。だが、決断の時は近い。',choices:[
+{t:'もう一年、現役にこだわる',d:'最後の輝きを狙う。体力と運が鍵。',fx:{mental:4,discipline:4,health:-3},chance:{p:.42,good:{talent:5,network:3},bad:{mental:-5},goodText:'意地を見せる活躍。もう一年の契約を勝ち取った。',badText:'結果を残せず、厳しい現実を突きつけられた。'},r:'現役続行を目指して最後の挑戦へ。'},
+{t:'引退を決意し、次の人生へ',d:'現役生活に区切りをつける。',fx:{mental:3,wealth:2},retire:true,r:'現役生活に区切りをつけ、次の人生へ進む決意をした。'},
+{t:'指導者や別の役割を探す',d:'野球との関わり方を変える。',fx:{network:5,discipline:2,mental:3},career:'指導者・球団職員志望',r:'選手以外の形で野球に関わる道を探し始めた。'}]},
+{tag:'最後の舞台',title:'ファンの前で',story:'最後の試合、あるいは最後のシーズン。これまでの野球人生が胸をよぎる。最後に何を大切にする？',choices:[
+{t:'勝利のためにすべてを出し切る',d:'最後まで競技者として挑む。',fx:{talent:2,mental:5,network:3},r:'最後まで勝利を追い求め、全力でプレーした。'},
+{t:'仲間やファンへの感謝を伝える',d:'人とのつながりが人生の財産になる。',fx:{network:7,mental:4},r:'支えてくれた人々への感謝を胸に、最後の舞台を終えた。'},
+{t:'自分らしいプレーを貫く',d:'数字だけではない誇りを大切にする。',fx:{mental:6,discipline:2},r:'自分らしい野球を貫き、納得のいく終わり方を選んだ。'}]}
+]}
+];
+const clamp=(v,min=0,max=100)=>Math.max(min,Math.min(max,v));
+function stageFor(age){return stages.find(s=>age>=s.min&&age<=s.max)||stages[stages.length-1]}
+function init(){
+ let o=originData[origin], dream=$('dream').value;
+ state={name:$('playerName').value.trim()||'名無し',age:6,origin,dream,stats:{talent:o.talent,discipline:o.discipline,health:o.health,mental:o.mental,wealth:o.wealth,network:o.network},position:'未定',career:'現役選手',pro:false,retired:false,retireAge:null,events:0,history:[],achievements:[],careerYears:0,batting:0,titles:0,random:Math.random()};
+ // Birth-story modifiers
+ if(dream==='star'){state.stats.mental-=2;state.stats.talent+=2}
+ if(dream==='money'){state.stats.discipline+=3}
+ if(dream==='ace'){state.position='投手'}
+ $('start').classList.add('hidden');$('game').classList.remove('hidden');$('ending').classList.add('hidden');
+ nextEvent(true);render();
+}
+function applyFx(fx={}){for(let k in fx){if(k==='career')state.career=fx[k];else if(k==='pos')state.position=fx[k];else if(k==='retire')state.retired=true;else if(state.stats[k]!==undefined)state.stats[k]=clamp(state.stats[k]+fx[k])}}
+function nextEvent(first=false){
+ if(state.retired || state.age>=45){finish();return}
+ let s=stageFor(state.age);
+ if(state.age>=19 && state.age<=22 && state.pro) s=stages.find(x=>x.name==='プロの世界');
+ let ev=s.events[Math.floor(Math.random()*s.events.length)];
+ // ensure age-appropriate special professional path
+ if(state.age>=19 && state.age<=22 && state.pro){ev=stages.find(x=>x.name==='プロへの挑戦').events[1]}
+ state.currentEvent=ev;state.events++;
+ if(!first && state.age<45) {
+   // advance age by one, with random development
+   state.age++;
+   const dev=state.age<19?1:0.4;
+   state.stats.talent=clamp(state.stats.talent+(Math.random()<.45?dev:0));
+   if(Math.random()<.13) {
+     let hurt=Math.floor(Math.random()*7)+2;state.stats.health=clamp(state.stats.health-hurt);
+     state.history.unshift({age:state.age,title:'小さな故障',text:`疲労がたまり、コンディションが ${hurt} 低下。休養の大切さを学んだ。`});
+   }
+ }
+ renderEvent();
+}
+function renderEvent(){
+ let ev=state.currentEvent,s=stageFor(state.age);
+ $('stage').textContent=s.name;$('age').textContent=state.age+'歳';
+ $('playerHeadline').textContent=state.name+'の野球人生';
+ $('eventTag').textContent=ev.tag;$('eventNum').textContent='イベント '+state.events;
+ $('eventTitle').textContent=ev.title;$('eventStory').textContent=ev.story;
+ const opts=$('options');opts.innerHTML='';
+ ev.choices.forEach((c,i)=>{
+  const b=document.createElement('button');b.className='option';
+  b.innerHTML=`<b>${c.t}</b><small>${c.d}</small>`;
+  b.onclick=()=>choose(i);opts.appendChild(b);
+ });
+}
+function choose(i){
+ const ev=state.currentEvent,c=ev.choices[i];applyFx(c.fx);
+ let result=c.r;
+ if(c.chance){
+   const success=Math.random()<c.chance.p;
+   applyFx(success?c.chance.good:c.chance.bad);
+   result+=' '+(success?c.chance.goodText:c.chance.badText);
+   if(success)state.achievements.push(c.chance.goodText);
+ }
+ if(state.age>=19&&state.age<=22&&ev.title==='ドラフト会議の日'&&i===0){
+   // chance outcome is reflected in network; model draft with random roll
+   if(Math.random()<.52){state.pro=true;state.career='プロ野球選手';result+=' 夢のプロ入りを果たした！'}
+   else {state.pro=false;result+=' その後、独立リーグで再挑戦する道を選んだ。'}
+ }
+ if(c.pos)state.position=c.pos;
+ if(c.career)state.career=c.career;
+ if(c.retire){state.retired=true;state.retireAge=state.age}
+ if(state.age>=19 && state.pro && Math.random()<.16){state.titles++;state.achievements.push('タイトル争いに名を連ねた')}
+ if(state.age>=19 && state.pro)state.careerYears++;
+ state.history.unshift({age:state.age,title:ev.title,text:result});
+ if(state.history.length>12)state.history.pop();
+ if(state.stats.health<18 && state.age>=19 && Math.random()<.45){state.history.unshift({age:state.age,title:'戦力外の危機',text:'故障の影響で出場機会が減り、厳しい立場に立たされた。'});}
+ if(state.age>=45)state.retired=true;
+ if(state.retired){finish();render();return}
+ nextEvent();render();
+}
+function render(){
+ if(!state)return;
+ const s=state.stats;
+ const statNames={talent:'才能',discipline:'努力',health:'健康',mental:'メンタル',wealth:'資産',network:'人脈'};
+ $('quickStats').innerHTML=['talent','discipline','health'].map(k=>`<div class="stat"><label>${statNames[k]}</label><b>${s[k]}</b><div class="meter"><i style="width:${s[k]}%"></i></div></div>`).join('');
+ $('position').textContent=state.position;
+ $('profile').innerHTML=Object.keys(statNames).map(k=>`<div style="margin:8px 0"><div class="sectiontitle"><span class="small">${statNames[k]}</span><b>${s[k]}<span class="muted small">/100</span></b></div><div class="meter"><i style="width:${s[k]}%"></i></div></div>`).join('')+`<p class="small muted">出身：${originData[state.origin].label}<br>夢：${({pro:'プロ野球選手',ace:'甲子園のエース',star:'誰もが知るスター',money:'家族を楽にする'})[state.dream]}<br>キャリア：${state.career}</p>`;
+ $('history').innerHTML=state.history.slice(0,5).map(h=>`<div class="logitem"><b>${h.age}歳 · ${h.title}</b><p>${h.text}</p></div>`).join('')||'<p class="muted small">選択の記録がここに残ります。</p>';
+ $('recordCount').textContent=state.history.length+'件';
+}
+function finish(){
+ $('options').innerHTML='';$('eventTag').textContent='キャリア総括';$('eventTitle').textContent='最後のシーズン';$('eventStory').textContent='どんな結果であっても、ここまでの選択があなたの野球人生をつくった。';
+ $('ending').classList.remove('hidden');
+ let score=Math.round(state.stats.talent*.28+state.stats.discipline*.18+state.stats.health*.12+state.stats.mental*.12+state.stats.network*.12+state.stats.wealth*.08+Math.min(100,state.careerYears*5)*.1);
+ let grade=score>=85?'伝説':score>=72?'球史に残る名選手':score>=58?'一流選手':score>=42?'苦労人':score>=28?'挑戦者':'野球に人生を捧げた男';
+ $('grade').textContent=grade;
+ let end=state.pro?`${state.name}はプロの世界で${state.careerYears}年を過ごした。`:`${state.name}はプロ入りだけが成功ではないと知り、自分なりの道を歩んだ。`;
+ end+=` 最終的な才能 ${state.stats.talent}、努力 ${state.stats.discipline}、健康 ${state.stats.health}。${state.achievements.length? '忘れられない瞬間も生まれた。':''} ${state.career==='指導者志望'||state.career==='指導者・球団職員志望'?'野球を次の世代へ伝える道を目指した。':state.career==='事業・資産形成'?'野球で得た経験を新しい人生に活かそうとしている。':'野球で培った経験を胸に、次の人生が始まる。'}`;
+ $('endingText').textContent=end;
+ $('careerStats').innerHTML=`<div class="stat"><label>最終評価</label><b>${score}</b></div><div class="stat"><label>プロ在籍年数</label><b>${state.careerYears}年</b></div><div class="stat"><label>重要イベント</label><b>${state.events}</b></div>`;
+}
+function save(){
+ if(!state){toast('まだゲームが始まっていません');return}
+ try{localStorage.setItem('diamondLifeSave',JSON.stringify({state,origin}));toast('セーブしました');}catch(e){toast('セーブできませんでした')}
+}
+function load(){
+ try{let v=localStorage.getItem('diamondLifeSave');if(!v)return false;let d=JSON.parse(v);state=d.state;origin=d.origin;$('start').classList.add('hidden');$('game').classList.remove('hidden');if(state.retired||state.age>=45)finish();else renderEvent();render();toast('セーブデータを読み込みました');return true}catch(e){return false}
+}
+function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),1800)}
+$('origins').addEventListener('click',e=>{let b=e.target.closest('[data-origin]');if(!b)return;origin=b.dataset.origin;document.querySelectorAll('[data-origin]').forEach(x=>x.classList.toggle('selected',x===b))});
+$('startBtn').onclick=init;$('saveBtn').onclick=save;$('restartBtn').onclick=()=>{state=null;$('game').classList.add('hidden');$('start').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})};
+if(localStorage.getItem('diamondLifeSave')){const b=document.createElement('button');b.className='secondary';b.style.width='100%';b.style.marginTop='10px';b.textContent='前回のセーブから再開';b.onclick=load;$('start').appendChild(b)}
+</script></body></html>
